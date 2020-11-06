@@ -1,0 +1,23 @@
+{
+  "box": "generic/debian9",
+  "min_storage": "32GB",
+  "provider": "virtualbox",
+  "name": "test0",
+  "memory": "1024",
+  "cpus": "1",
+  "networks": [
+	  {
+		  "type": "public_network"
+	  }
+  ],
+  "ports": [
+  ],
+  "provisioning": [
+    {
+      "provisioner": "shell",
+      "path": "provisioning/bootstrap.sh",
+      "privileged": true,
+      "args": ""
+    }
+  ]
+}
