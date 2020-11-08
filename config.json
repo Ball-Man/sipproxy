@@ -19,5 +19,11 @@
       "privileged": true,
       "args": ""
     }
+  ],
+  "synced_folders": [
+	  {
+		  "host": "./root",
+		  "guest": "/vroot"
+	  }
   ]
 }

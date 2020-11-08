@@ -27,21 +27,26 @@ Vagrant.configure("2") do |config|
   end
 
   # Network
-  config_data["networks"].each do |net|
+  config_data["networks"]&.each do |net|
     config.vm.network net["type"], ip: net["ip"]
   end
 
   # Forwarded ports
-  config_data["ports"].each do |port|
+  config_data["ports"]&.each do |port|
   	config.vm.network :forwarded_port, guest: port["guest"], host: port["host"], protocol: port["protocol"]
   end
 
   # Provisioning
-  config_data["provisioning"].each do |provision|
+  config_data["provisioning"]&.each do |provision|
     case provision["provisioner"]
     when "shell"
       config.vm.provision provision["provisioner"], path: provision["path"], privileged: provision["privileged"], args: provision["args"]
     end
+  end
+
+  # Synced folders
+  config_data["synced_folders"]&.each do |folder|
+    config.vm.synced_folder folder["host"], folder["guest"]
   end
 
 end
