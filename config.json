@@ -2,7 +2,7 @@
   "box": "generic/debian9",
   "min_storage": "32GB",
   "provider": "virtualbox",
-  "name": "test0",
+  "name": "sipproxy",
   "memory": "1024",
   "cpus": "1",
   "networks": [
