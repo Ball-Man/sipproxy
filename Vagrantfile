@@ -13,41 +13,44 @@ unless Vagrant.has_plugin?("vagrant-disksize")
 end
 
 Vagrant.configure("2") do |config|
-  # Box name
-  config.vm.box = config_data["box"]
+  config_data.each do |name_, v_data|
+    config.vm.define name_ do |v|
+      # Box name
+      v.vm.box = v_data["box"]
 
-  # Disk size
-  config.disksize.size = config_data["min_storage"]
+      # Disk size
+      v.disksize.size = v_data["min_storage"]
 
-  # Provider specific
-  config.vm.provider config_data["provider"] do |v|
-    v.name = config_data["name"]
-  	v.memory = config_data["memory"]
-    v.cpus = config_data["cpus"]
-  end
+      # Provider specific
+      v.vm.provider v_data["provider"] do |v|
+        v.name = name_
+      	v.memory = v_data["memory"]
+        v.cpus = v_data["cpus"]
+      end
 
-  # Network
-  config_data["networks"]&.each do |net|
-    config.vm.network net["type"], ip: net["ip"]
-  end
+      # Network
+      v_data["networks"]&.each do |net|
+        v.vm.network net["type"], ip: net["ip"]
+      end
 
-  # Forwarded ports
-  config_data["ports"]&.each do |port|
-  	config.vm.network :forwarded_port, guest: port["guest"], host: port["host"], protocol: port["protocol"]
-  end
+      # Forwarded ports
+      v_data["ports"]&.each do |port|
+      	v.vm.network :forwarded_port, guest: port["guest"], host: port["host"], protocol: port["protocol"]
+      end
 
-  # Provisioning
-  config_data["provisioning"]&.each do |provision|
-    case provision["provisioner"]
-    when "shell"
-      config.vm.provision provision["provisioner"], path: provision["path"], privileged: provision["privileged"], args: provision["args"]
+      # Provisioning
+      v_data["provisioning"]&.each do |provision|
+        case provision["provisioner"]
+        when "shell"
+          v.vm.provision provision["provisioner"], path: provision["path"], privileged: provision["privileged"], args: provision["args"]
+        end
+      end
+
+      # Synced folders
+      v_data["synced_folders"]&.each do |folder|
+        v.vm.synced_folder folder["host"], folder["guest"]
+      end
     end
   end
-
-  # Synced folders
-  config_data["synced_folders"]&.each do |folder|
-    config.vm.synced_folder folder["host"], folder["guest"]
-  end
-
 end
 

@@ -1,29 +1,30 @@
 {
-  "box": "generic/debian9",
-  "min_storage": "32GB",
-  "provider": "virtualbox",
-  "name": "sipproxy",
-  "memory": "1024",
-  "cpus": "1",
-  "networks": [
-	  {
-		  "type": "public_network"
-	  }
-  ],
-  "ports": [
-  ],
-  "provisioning": [
-    {
-      "provisioner": "shell",
-      "path": "provisioning/bootstrap.sh",
-      "privileged": true,
-      "args": ""
-    }
-  ],
-  "synced_folders": [
-	  {
-		  "host": "./root",
-		  "guest": "/vroot"
-	  }
-  ]
+  "balancer": {
+    "box": "generic/debian9",
+    "min_storage": "32GB",
+    "provider": "virtualbox",
+    "memory": "1024",
+    "cpus": "1",
+    "networks": [
+      {
+        "type": "public_network"
+      }
+    ],
+    "ports": [
+    ],
+    "provisioning": [
+      {
+        "provisioner": "shell",
+        "path": "provisioning/balancer/bootstrap.sh",
+        "privileged": true,
+        "args": ""
+      }
+    ],
+    "synced_folders": [
+      {
+        "host": "./root/balancer",
+        "guest": "/vroot"
+      }
+    ]
+  }
 }
