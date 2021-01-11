@@ -14,6 +14,10 @@ end
 
 Vagrant.configure("2") do |config|
   config_data.each do |name_, v_data|
+    if name_ == "env"
+      next
+    end
+
     config.vm.define name_ do |v|
       # Box name
       v.vm.box = v_data["box"]
@@ -42,7 +46,9 @@ Vagrant.configure("2") do |config|
       v_data["provisioning"]&.each do |provision|
         case provision["provisioner"]
         when "shell"
-          v.vm.provision provision["provisioner"], path: provision["path"], privileged: provision["privileged"], args: provision["args"]
+          v.vm.provision provision["provisioner"], path: provision["path"],
+                         privileged: provision["privileged"],
+                         args: provision["args"], env: config_data["env"]
         end
       end
 

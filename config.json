@@ -1,4 +1,8 @@
 {
+  "env": {
+    "MEDIA_PROXY_IP": "",
+    "MEDIA_PROXY_PORT": "5060"
+  },
   "balancer": {
     "box": "generic/debian9",
     "min_storage": "32GB",
