@@ -8,5 +8,6 @@ cp -rv /vroot/* /
 yes n | /usr/sbin/kamdbctl create
 
 kamctl dispatcher add 1 sip:$MEDIA_PROXY_IP:$MEDIA_PROXY_PORT 0 0 '' 'Media proxy'
+kamctl address add 1 $MEDIA_PROXY_IP 32 $MEDIA_PROXY_PORT 'Media proxy'
 
 systemctl restart kamailio
